@@ -1,0 +1,1 @@
+theorem proof therefore qed let exists data absurd if else while forall in step match case break left right Int Float Bool Char String Array True False print len push copy toFloat toInt true false nombre _ 42 3.14 'a' "hola" + - * / % << >> & | ^ ~ && || ! == != < <= > >= = -> : . , ; ( ) { } [ ]

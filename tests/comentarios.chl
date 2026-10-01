@@ -1,0 +1,4 @@
+// línea
+/* uno
+ ** dos */ x/y
+/* exterior /* interior */ print(1);

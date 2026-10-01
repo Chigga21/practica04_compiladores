@@ -1,0 +1,253 @@
+let Float PI = 3.14159;
+let Int MAX_ITER = 1_000;
+let Int MASK = 0xFF;
+let Int FLAGS = 0b1010_0101;
+let String GREETING = "Hola, \"mundo\"\n";
+let Char NEWLINE = '\n';
+
+data Nat {
+    Zero;
+    Succ(Nat n);
+}
+
+data List<T> {
+    Nil;
+    Cons(T head, List<T> tail);
+}
+
+theorem modus_ponens((P -> Q) h, P p) -> Q:
+proof {
+    therefore(h(p));
+    qed;
+}
+
+theorem and_swap((P * Q) h) -> Q * P:
+proof {
+    therefore((h.snd, h.fst));
+    qed;
+}
+
+theorem or_intro_left(P p) -> P + Q:
+proof {
+    therefore(left(p));
+    qed;
+}
+
+theorem or_elim((P -> R) f, (Q -> R) g, (P + Q) h) -> R:
+proof {
+    match (h) {
+        case left(p):  therefore(f(p)); break;
+        case right(q): therefore(g(q)); break;
+    }
+    qed;
+}
+
+theorem contrapositive((P -> Q) f, !Q nq, P p) -> False:
+proof {
+    therefore(nq(f(p)));
+    qed;
+}
+
+theorem arithmetic(Int a, Int b) -> Int:
+proof {
+    let Int sum = a + b;
+    let Int quot = a / b;
+    let Int rem = a % b;
+    let Int bits = ((a & MASK) | (b << 2)) ^ (~a >> 1);
+    let Bool ordered = (a <= b) && !(a == b) || (a != 0);
+    if (ordered) {
+        therefore(sum * quot - rem);
+    } else {
+        therefore(bits);
+    }
+    qed;
+}
+
+theorem sign(Int x) -> Int:
+proof {
+    if (x > 0) {
+        therefore(1);
+    } else if (x < 0) {
+        therefore(-1);
+    } else {
+        therefore(0);
+    }
+    qed;
+}
+
+theorem factorial(Int n) -> Int:
+proof {
+    exists Int result = 1;
+    exists Int i = 1;
+    while (i <= n) {
+        result = result * i;
+        i = i + 1;
+    }
+    therefore(result);
+    qed;
+}
+
+theorem ranges(Int n) -> Int:
+proof {
+    exists Int total = 0;
+    forall (Int i : 0 <= i <= n) {             // ascendente, cerrado
+        total = total + i;
+    }
+    forall (Int j : n >= j >= 1) {             // descendente
+        total = total + j;
+    }
+    forall (Int k : 0 <= k < 100 step 5) {     // semiabierto con salto
+        total = total + k;
+    }
+    forall (Int m : 100 >= m > 0 step 10) {    // descendente con salto
+        total = total - m;
+    }
+    therefore(total);
+    qed;
+}
+
+theorem sum_all(Array<Int> xs) -> Int:
+proof {
+    exists Int total = 0;
+    forall (Int x in xs) {
+        total = total + x;
+    }
+    therefore(total);
+    qed;
+}
+
+theorem reverse(Array<Int> xs) -> Array<Int>:
+proof {
+    exists Array<Int> out = [];
+    forall (Int i : len(xs) > i >= 0) {
+        push(out, xs[i]);
+    }
+    therefore(out);
+    qed;
+}
+
+theorem bubble_sort(Array<Int> xs) -> Array<Int>:
+proof {
+    exists Array<Int> a = copy(xs);
+    forall (Int i : 0 <= i < len(a)) {
+        forall (Int j : 0 <= j < len(a) - 1 - i) {
+            if (a[j] > a[j + 1]) {
+                exists Int tmp = a[j];
+                a[j] = a[j + 1];
+                a[j + 1] = tmp;
+            }
+        }
+    }
+    therefore(a);
+    qed;
+}
+
+theorem min_max(Array<Int> xs) -> Int * Int:
+proof {
+    exists Int lo = xs[0];
+    exists Int hi = xs[0];
+    forall (Int x in xs) {
+        if (x < lo) { lo = x; }
+        if (x > hi) { hi = x; }
+    }
+    therefore((lo, hi));
+    qed;
+}
+
+theorem count_vowels(String text) -> Int:
+proof {
+    exists Int count = 0;
+    let Array<Char> vowels = ['a', 'e', 'i', 'o', 'u'];
+    forall (Char c in text) {
+        forall (Char v in vowels) {
+            if (c == v) {
+                count = count + 1;
+            }
+        }
+    }
+    therefore(count);
+    qed;
+}
+
+theorem describe(Int x) -> String:
+proof {
+    exists String label = "otro";
+    match (x) {
+        case 0: label = "cero"; break;
+        case 1: label = "uno";  break;
+        case _: label = "otro"; break;
+    }
+    therefore(label);
+    qed;
+}
+
+theorem add_nat(Nat x, Nat y) -> Nat:
+proof {
+    match (x) {
+        case Zero:    therefore(y); break;
+        case Succ(k): therefore(Succ(add_nat(k, y))); break;
+    }
+    qed;
+}
+
+theorem length_list(List<Int> xs) -> Int:
+proof {
+    match (xs) {
+        case Nil:        therefore(0); break;
+        case Cons(h, t): therefore(1 + length_list(t)); break;
+    }
+    qed;
+}
+
+theorem divide(Int x, Int y) -> Int:
+proof {
+    if (y == 0) {
+        absurd("división entre cero");
+    }
+    therefore(x / y);
+    qed;
+}
+
+theorem safe_divide(Int x, Int y) -> Int + String:
+proof {
+    if (y == 0) {
+        therefore(right("división entre cero"));
+    }
+    therefore(left(x / y));
+    qed;
+}
+
+theorem average(Array<Int> xs) -> Float:
+proof {
+    if (len(xs) == 0) {
+        absurd("arreglo vacío");
+    }
+    let Float total = toFloat(sum_all(xs));
+    therefore(total / toFloat(len(xs)));
+    qed;
+}
+
+theorem main() -> True:
+proof {
+    let Array<Int> nums = [5, 3, 8, 1];
+    let Array<Int> sorted = bubble_sort(nums);
+    let (Int * Int) bounds = min_max(nums);
+
+    print(GREETING);
+    print(sum_all(sorted));
+    print(describe(len(sorted)));
+    print(bounds.fst);
+    print(bounds.snd);
+    print(factorial(5));
+    print(count_vowels("curry howard"));
+
+    match (safe_divide(10, 0)) {
+        case left(v):  print(v); break;
+        case right(e): print(e); break;
+    }
+
+    print(average(sorted));
+    print(PI * 2.0);
+    therefore(());
+    qed;
+}

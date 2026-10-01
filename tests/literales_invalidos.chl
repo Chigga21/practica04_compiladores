@@ -1,0 +1,9 @@
+"\q"; '\q'; ''; 'ab'; 'é😀'; "\x41";
+"sin cerrar
+let Int ok = 1;
+'sin cerrar
+let Int ok = 1;
+"barra\
+let Int ok = 1;
+'\'
+let Int ok = 1;

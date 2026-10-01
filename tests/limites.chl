@@ -1,0 +1,9 @@
+// longest match y ambiguedades
+a > b >> c >= d << e <= f -> g - h
+Int Integer integer let letter _ _x x_ True true Truex
+print printf len length toFloat tofloat
+x/y // comentario
+x / * y
+"http://x" 'a' '\n' '\'' "di \"hola\""
+p.fst xs[0].snd 3.14 1e-3 2.5e10 0xFF 0b1010 1_000_000
+&& & || | ! != ~ ^

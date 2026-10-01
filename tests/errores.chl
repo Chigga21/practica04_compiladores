@@ -1,0 +1,20 @@
+exists Int x = 5 @ 3;
+/* comentario cerrado
+   en dos lineas */
+exists String s = "hola;
+let Char c1 = 'a;
+let Char c2 = '';
+let Char c3 = 'ab';
+let String e = "di \q hola";
+let Int n1 = 0x;
+let Float n2 = 1.2.3;
+let Int n3 = 0b102;
+let Int n4 = 9999999999999999999999;
+let Int n5 = 1__0;
+let Int n6 = 10_;
+let Int n7 = 0x_FF;
+let Char ok = 'é';
+let String uni = "π ≈ 3.14";
+let Int y = 7 # 2;
+/* nunca termina
+theorem fin() -> True:
